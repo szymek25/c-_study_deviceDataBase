@@ -39,3 +39,14 @@ int DeviceData::getAmount(){
     return amount;
 }
 
+void DeviceData::deleteCurrent(){
+    if(current>=0 && amount>1){
+        for (int i=current;i<amount-1;i++){
+            tab[i]=tab[i+1];
+        }
+        amount--;
+    }else if(amount ==1){
+        current = -1;
+        amount=0;
+    }
+}

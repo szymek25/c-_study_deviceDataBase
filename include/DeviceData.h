@@ -14,6 +14,7 @@ public:
     void next();
     void previous();
     int getAmount();
+    void deleteCurrent();
 
 protected:
     Device *tab;

@@ -46,6 +46,7 @@ void showDevices(DeviceData deviceData) {
 
     do {
         if(deviceData.getAmount() <= 0){
+            system("cls");
             cout <<"No devices in data base"<< endl;
             cout <<"Press any key to continue ..."<< endl;
             getch();
@@ -54,9 +55,7 @@ void showDevices(DeviceData deviceData) {
         system("cls");
         displayDetailsForDevice(deviceData.getCurrent(),10,10);
         gotoxy(5,20);
-        cout <<"Use arrows to navigate beetwen devices";
-        gotoxy(50,20);
-        cout <<"0 To back to main menu";
+        cout <<"Previous[\x1b] Next[\x1a]  Delete[c]  Back[0] ";
         c = getch();
         switch(c) {
         case KEY_LEFT:
@@ -65,6 +64,8 @@ void showDevices(DeviceData deviceData) {
         case KEY_RIGHT:
             deviceData.next();
             break;
+        case 'c':
+            deviceData.deleteCurrent();
         }
 
     } while(c != '0');
