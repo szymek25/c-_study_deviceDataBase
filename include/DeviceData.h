@@ -15,12 +15,17 @@ public:
     void previous();
     int getAmount();
     void deleteCurrent();
+    char** loadDataBases();
+    void addDataBase(char* name);
+    int getSize();
 
 protected:
     Device *tab;
     int sizeOfBase;
     int amount;
     int current;
+    char* name;
+    int size;
 private:
 };
 

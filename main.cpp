@@ -114,6 +114,14 @@ int main() {
     char zn;
     gotoxy(30,10);
     cout << "Welcome in device`s data base"<<endl;
+    //Test
+    char test[20];
+    cin >> test;
+    dataBase.addDataBase(test);
+    char **tab = dataBase.loadDataBases();
+    for(int i=0;i<dataBase.getSize();i++){
+        cout << tab[i] << endl;
+    }
 
     do {
         showMenu();
