@@ -10,7 +10,7 @@ DeviceData::DeviceData(int sizeOfBase){
     tab = new Device[sizeOfBase];
 	amount = 0;
 	current = -1;
-	size = 0;
+	amountOfDataBases = 0;
 }
 void DeviceData::add(Device device) {
     if(amount<sizeOfBase){
@@ -57,10 +57,10 @@ void DeviceData::deleteCurrent(){
 char** DeviceData::loadDataBases(){
     FILE *zp;
     zp = fopen("dataBases","rb");
-    fread(&size,sizeof(size),1,zp);
+    fread(&amountOfDataBases,sizeof(amountOfDataBases),1,zp);
     char** dataBases = new char*;
 
-    for(int i=0; i<size;i++)
+    for(int i=0; i<amountOfDataBases;i++)
     {
         dataBases[i] = new char[MAX_NAME_LENGHT];
         fread(dataBases[i],sizeof(dataBases[i]),1,zp);
@@ -72,13 +72,13 @@ char** DeviceData::loadDataBases(){
 void DeviceData::addDataBase(char* name){
     char** dataBases = new char*;
     dataBases = loadDataBases();
-    dataBases[size] = name;
-    size++;
+    dataBases[amountOfDataBases] = name;
+    amountOfDataBases++;
 
     FILE *zp;
     zp = fopen("dataBases", "wb");
-    fwrite(&size,sizeof(size),1,zp);
-    for(int i=0; i<size;i++)
+    fwrite(&amountOfDataBases,sizeof(amountOfDataBases),1,zp);
+    for(int i=0; i<amountOfDataBases;i++)
     {
         fwrite(dataBases[i],sizeof(dataBases[i]),1,zp);
     }
@@ -86,6 +86,10 @@ void DeviceData::addDataBase(char* name){
     fclose(zp);
 }
 
-int DeviceData::getSize(){
-    return size;
+int DeviceData::getamountOfDataBases(){
+    return amountOfDataBases;
+}
+
+void DeviceData::setName(char* name){
+    this -> name = name;
 }

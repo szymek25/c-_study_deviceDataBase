@@ -22,6 +22,8 @@ void showMenu() {
     gotoxy(30,12);
     cout <<"2.Show devices"<<endl;
     gotoxy(30,13);
+    cout <<"3.Select Data Base"<<endl;
+    gotoxy(30,14);
     cout <<"0.Exit" <<endl;
 }
 
@@ -45,7 +47,7 @@ void showDevices(DeviceData deviceData) {
     char c;
 
     do {
-        if(deviceData.getAmount() <= 0){
+        if(deviceData.getAmount() <= 0) {
             system("cls");
             cout <<"No devices in data base"<< endl;
             cout <<"Press any key to continue ..."<< endl;
@@ -109,19 +111,72 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
 
     system("cls");
 }
+
+void inputNewDataBaseInfo(DeviceData& deviceData) {
+    char dataBaseName[20];
+    cin >> dataBaseName;
+    deviceData.addDataBase(dataBaseName);
+    deviceData.setName(dataBaseName);
+}
+
+void selectBaseName(DeviceData& deviceData, char **dataBases) {
+
+    int i,size;
+    bool selected = false;
+    size = deviceData.getamountOfDataBases();
+    do {
+        for(int i=0 ; i < size; i++) {
+            cout <<"[" << i << "]" << dataBases[i] << endl;
+        }
+        cin >> i;
+
+        if(i > size) {
+            cout <<"Please input correct number" << endl;
+        } else {
+            deviceData.setName(dataBases[i]);
+            selected = true;
+        }
+
+    } while(!selected);
+    system("cls");
+}
+
+void chooseDataBase(DeviceData& deviceData) {
+    char **dataBases = deviceData.loadDataBases();
+    char c;
+    if(deviceData.getamountOfDataBases() <= 0) {
+        cout <<"There is no any databases, please input name for new data base";
+        inputNewDataBaseInfo(deviceData);
+        return;
+    }
+    do {
+        gotoxy(30,11);
+        cout << "1.Create new data base"<<endl;
+        gotoxy(30,12);
+        cout << "2.Open exsist data base"<<endl;
+        gotoxy(30,13);
+        cout << "0.Exit" <<endl;
+
+        c = getch();
+        system("cls");
+        switch(c) {
+        case '1':
+            inputNewDataBaseInfo(deviceData);
+            c = '0';
+            break;
+        case '2':
+            selectBaseName(deviceData,dataBases);
+            c = '0';
+            break;
+        }
+    } while(c!='0');
+}
 int main() {
     DeviceData dataBase(15);
     char zn;
     gotoxy(30,10);
     cout << "Welcome in device`s data base"<<endl;
-    //Test
-    char test[20];
-    cin >> test;
-    dataBase.addDataBase(test);
-    char **tab = dataBase.loadDataBases();
-    for(int i=0;i<dataBase.getSize();i++){
-        cout << tab[i] << endl;
-    }
+    chooseDataBase(dataBase);
 
     do {
         showMenu();
@@ -134,6 +189,8 @@ int main() {
         case '2':
             showDevices(dataBase);
             break;
+        case '3':
+            chooseDataBase(dataBase);
         }
     } while(zn != '0');
     return 0;

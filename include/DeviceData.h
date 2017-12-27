@@ -17,7 +17,8 @@ public:
     void deleteCurrent();
     char** loadDataBases();
     void addDataBase(char* name);
-    int getSize();
+    int getamountOfDataBases();
+    void setName(char* name);
 
 protected:
     Device *tab;
@@ -25,7 +26,7 @@ protected:
     int amount;
     int current;
     char* name;
-    int size;
+    int amountOfDataBases;
 private:
 };
 
