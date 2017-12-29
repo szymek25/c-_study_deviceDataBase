@@ -26,6 +26,8 @@ void showMenu() {
     gotoxy(30,14);
     cout <<"4.Save Current Data Base"<<endl;
     gotoxy(30,15);
+    cout <<"5.Load Current Data Base"<<endl;
+    gotoxy(30,16);
     cout <<"0.Exit" <<endl;
 }
 
@@ -197,6 +199,9 @@ int main() {
             break;
         case '4':
             dataBase.saveData();
+            break;
+        case '5':
+            dataBase.loadData();
             break;
         }
     } while(zn != '0');
