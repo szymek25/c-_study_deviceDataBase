@@ -24,6 +24,8 @@ void showMenu() {
     gotoxy(30,13);
     cout <<"3.Select Data Base"<<endl;
     gotoxy(30,14);
+    cout <<"4.Save Current Data Base"<<endl;
+    gotoxy(30,15);
     cout <<"0.Exit" <<endl;
 }
 
@@ -135,6 +137,7 @@ void selectBaseName(DeviceData& deviceData, char **dataBases) {
         } else {
             deviceData.setName(dataBases[i]);
             selected = true;
+            deviceData.loadData();
         }
 
     } while(!selected);
@@ -181,7 +184,7 @@ int main() {
     do {
         showMenu();
         zn=getch();
-        system("CLS");
+        system("cls");
         switch(zn) {
         case '1':
             inputDeviceInfo(dataBase,30,10);
@@ -191,6 +194,10 @@ int main() {
             break;
         case '3':
             chooseDataBase(dataBase);
+            break;
+        case '4':
+            dataBase.saveData();
+            break;
         }
     } while(zn != '0');
     return 0;

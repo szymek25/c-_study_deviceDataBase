@@ -19,6 +19,8 @@ public:
     void addDataBase(char* name);
     int getamountOfDataBases();
     void setName(char* name);
+    void saveData();
+    void loadData();
 
 protected:
     Device *tab;
@@ -28,6 +30,7 @@ protected:
     char* name;
     int amountOfDataBases;
 private:
+    char* addSuffixToFileName(char* suffix);
 };
 
 #endif // DEVICEDATA_H
