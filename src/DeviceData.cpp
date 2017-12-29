@@ -9,8 +9,11 @@ DeviceData::DeviceData() {
 DeviceData::DeviceData(int sizeOfBase) {
     this -> sizeOfBase = sizeOfBase;
     tab = new Device[sizeOfBase];
+    found = new Device;
     amount = 0;
+    amountFound = 0;
     current = -1;
+    currentFound = -1;
     amountOfDataBases = 0;
 }
 void DeviceData::add(Device device) {
@@ -33,9 +36,21 @@ void DeviceData::next() {
     }
 }
 
+void DeviceData::nextFound() {
+    if(currentFound<amountFound-1) {
+        currentFound++;
+    }
+}
+
 void DeviceData::previous() {
     if(current>0) {
         current--;
+    }
+}
+
+void DeviceData::previousFound() {
+    if(currentFound>0) {
+        currentFound--;
     }
 }
 
@@ -135,4 +150,27 @@ int DeviceData::getamountOfDataBases() {
 
 void DeviceData::setName(char* name) {
     this -> name = name;
+}
+
+bool DeviceData::searchPrice(float min, float max){
+    amountFound = 0;
+    currentFound = -1;
+    for (int i=0;i<amount;i++){
+        if(tab[i].getPrice()>=min && tab[i].getPrice()<=max){
+            found[amountFound]=tab[i];
+            amountFound++;
+        }
+    }
+    if(amountFound){
+        currentFound=0;
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+Device DeviceData::getCurrentFound(){
+    if(currentFound >=0) {
+        return found[currentFound];
+    }
 }

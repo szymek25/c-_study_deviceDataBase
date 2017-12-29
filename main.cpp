@@ -47,6 +47,43 @@ void displayDetailsForDevice(Device device, int x, int y) {
 
 }
 
+void searchByPrice(DeviceData deviceData){
+    char c;
+    float min,max;
+    cout << "Input min price: ";
+    cin >> min;
+    cout <<"Input max price: ";
+    cin >> max;
+
+    bool isFound = deviceData.searchPrice(min,max);
+    do{
+        if(! isFound){
+            system("cls");
+            cout <<"No devices founded"<< endl;
+            cout <<"Press any key to continue ..."<< endl;
+            getch();
+            break;
+        }
+        system("cls");
+        cout <<"Founded devices by price";
+        displayDetailsForDevice(deviceData.getCurrentFound(),10,10);
+        gotoxy(5,20);
+        cout <<"Previous[\x1b] Next[\x1a]  Back[0] ";
+
+        c = getch();
+        switch(c) {
+        case KEY_LEFT:
+            deviceData.previousFound();
+            break;
+        case KEY_RIGHT:
+            deviceData.nextFound();
+            break;
+        }
+    }while(c != '0');
+
+    system("cls");
+}
+
 void showDevices(DeviceData deviceData) {
     char c;
 
@@ -61,7 +98,7 @@ void showDevices(DeviceData deviceData) {
         system("cls");
         displayDetailsForDevice(deviceData.getCurrent(),10,10);
         gotoxy(5,20);
-        cout <<"Previous[\x1b] Next[\x1a]  Delete[c]  Back[0] ";
+        cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Search by Price[s] Back[0] ";
         c = getch();
         switch(c) {
         case KEY_LEFT:
@@ -72,6 +109,11 @@ void showDevices(DeviceData deviceData) {
             break;
         case 'c':
             deviceData.deleteCurrent();
+            break;
+        case 's':
+            system("cls");
+            searchByPrice(deviceData);
+            break;
         }
 
     } while(c != '0');

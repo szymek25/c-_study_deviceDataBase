@@ -12,7 +12,9 @@ public:
     read();
     Device getCurrent();
     void next();
+    void nextFound();
     void previous();
+    void previousFound();
     int getAmount();
     void deleteCurrent();
     char** loadDataBases();
@@ -21,12 +23,17 @@ public:
     void setName(char* name);
     void saveData();
     void loadData();
+    bool searchPrice(float min, float max);
+    Device getCurrentFound();
 
 protected:
     Device *tab;
+    Device *found;
     int sizeOfBase;
     int amount;
+    int amountFound;
     int current;
+    int currentFound;
     char* name;
     int amountOfDataBases;
 private:
