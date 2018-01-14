@@ -10,7 +10,7 @@ public:
     void add(Device device);
     save();
     read();
-    Device getCurrent();
+    Device& getCurrent();
     void next();
     void nextFound();
     void previous();

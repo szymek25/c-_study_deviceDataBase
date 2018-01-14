@@ -84,7 +84,86 @@ void searchByPrice(DeviceData deviceData){
     system("cls");
 }
 
-void showDevices(DeviceData deviceData) {
+void editDevice(Device& device,int x,int y){
+    char *brand,*model;
+    int ram,memory;
+    float price,screenSize;
+    string brand_str,model_str,screenSize_str,price_str,ram_str,memory_str;
+
+    gotoxy(x,y-2);
+    cout <<"If you do not want to edit, leave field blank" <<endl;
+    gotoxy(x,y);
+    cout <<"Current Brand: " << device.getBrandName()<<endl;
+    gotoxy(x,y+1);
+    cout <<"New Brand:             "<<endl;
+    gotoxy(x,y+2);
+    cout <<"Current Model: "<< device.getModel() <<endl;
+    gotoxy(x,y+3);
+    cout <<"New Model:             "<<endl;
+    gotoxy(x,y+4);
+    cout << "Current Screen Size: " << device.getScreenSize() <<endl;
+    gotoxy(x,y+5);
+    cout <<"New Screen Size:        "<<endl;
+    gotoxy(x,y+6);
+    cout <<"Current Ram Amount: "<< device.getRam() <<endl;
+    gotoxy(x,y+7);
+    cout <<"New Ram Amount:                "<<endl;
+    gotoxy(x,y+8);
+    cout <<"Current Rom Amount: " << device.getMemory() <<endl;
+    gotoxy(x,y+9);
+    cout <<"New Rom Amount:                 "<<endl;
+    gotoxy(x,y+10);
+    cout <<"Current Price: " << device.getPrice() <<endl;
+    gotoxy(x,y+11);
+    cout <<"New Price:               "<<endl;
+
+
+    gotoxy(x+10,y+1);
+    cin.ignore();
+    getline(cin,brand_str);
+    if(!brand_str.empty()){
+        brand = &brand_str[0];
+        device.setBrandName(brand);
+    }
+
+
+    gotoxy(x+10,y+3);
+    getline(cin,model_str);
+    if(!model_str.empty()){
+        model = &model_str[0];
+        device.setModel(model);
+    }
+
+    gotoxy(x+16,y+5);
+    getline(cin,screenSize_str);
+    if(!screenSize_str.empty()){
+        screenSize = atof(screenSize_str.c_str());
+        device.setScreenSize(screenSize);
+    }
+
+    gotoxy(x+15,y+7);
+    getline(cin,ram_str);
+    if(!ram_str.empty()){
+        ram = atoi(ram_str.c_str());
+        device.setRam(ram);
+    }
+
+    gotoxy(x+15,y+9);
+    getline(cin,memory_str);
+    if(!memory_str.empty()){
+        memory = atoi(memory_str.c_str());
+        device.setMemory(memory);
+    }
+
+    gotoxy(x+10,y+11);
+    getline(cin,price_str);
+    if(!price_str.empty()){
+        price = atof(price_str.c_str());
+        device.setPrice(price);
+    }
+}
+
+void showDevices(DeviceData& deviceData) {
     char c;
 
     do {
@@ -98,7 +177,7 @@ void showDevices(DeviceData deviceData) {
         system("cls");
         displayDetailsForDevice(deviceData.getCurrent(),10,10);
         gotoxy(5,20);
-        cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Search by Price[s] Back[0] ";
+        cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Search by Price[s] Edit[e] Back[0] ";
         c = getch();
         switch(c) {
         case KEY_LEFT:
@@ -113,6 +192,10 @@ void showDevices(DeviceData deviceData) {
         case 's':
             system("cls");
             searchByPrice(deviceData);
+            break;
+        case 'e':
+            system("cls");
+            editDevice(deviceData.getCurrent(),30,30);
             break;
         }
 
@@ -163,6 +246,7 @@ void inputNewDataBaseInfo(DeviceData& deviceData) {
     cin >> dataBaseName;
     deviceData.addDataBase(dataBaseName);
     deviceData.setName(dataBaseName);
+    system("cls");
 }
 
 void selectBaseName(DeviceData& deviceData, char **dataBases) {
@@ -218,6 +302,7 @@ void chooseDataBase(DeviceData& deviceData) {
         }
     } while(c!='0');
 }
+
 int main() {
     DeviceData dataBase(15);
     char zn;

@@ -13,6 +13,12 @@ class Device
         int getMemory();
         float getPrice();
         float getScreenSize();
+        void setBrandName(char *newBrandName);
+        void setModel(char *newModel);
+        void setScreenSize(float newScreenSize);
+        void setPrice(float newPrice);
+        void setRam(int newRam);
+        void setMemory(int newMemory);
 
     protected:
         char brand[MAX_NAME_LENGHT];

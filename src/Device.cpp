@@ -41,3 +41,27 @@ float Device::getScreenSize() {
 float Device::getPrice() {
     return price;
 }
+
+void Device::setBrandName(char *newBrandName){
+    strcpy(brand,newBrandName);
+}
+
+void Device::setModel(char *newModel){
+    strcpy(model,newModel);
+}
+
+void Device::setScreenSize(float newScreenSize){
+    screenSize = newScreenSize;
+}
+
+void Device::setPrice(float newPrice){
+    price = newPrice;
+}
+
+void Device::setRam(int newRam){
+    ram = newRam;
+}
+
+void Device::setMemory(int newMemory){
+    memory = newMemory;
+}

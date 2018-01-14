@@ -24,9 +24,9 @@ void DeviceData::add(Device device) {
     }
 }
 
-Device DeviceData::getCurrent() {
-    if(this -> current >=0) {
-        return this -> tab[this -> current];
+Device& DeviceData::getCurrent() {
+    if(current >=0) {
+        return tab[current];
     }
 }
 
