@@ -6,6 +6,9 @@
 #include <stdio.h>
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
+#define MAX_NAME_LENGHT 20
+#define TO_MUCH_CHARACTERS "Your name is to long, max character is 20"
+#define IS_NOT_DIGIT "Please input number"
 
 using namespace std;
 
@@ -47,7 +50,7 @@ void displayDetailsForDevice(Device device, int x, int y) {
 
 }
 
-void searchByPrice(DeviceData deviceData){
+void searchByPrice(DeviceData deviceData) {
     char c;
     float min,max;
     cout << "Input min price: ";
@@ -56,8 +59,8 @@ void searchByPrice(DeviceData deviceData){
     cin >> max;
 
     bool isFound = deviceData.searchPrice(min,max);
-    do{
-        if(! isFound){
+    do {
+        if(! isFound) {
             system("cls");
             cout <<"No devices founded"<< endl;
             cout <<"Press any key to continue ..."<< endl;
@@ -79,12 +82,12 @@ void searchByPrice(DeviceData deviceData){
             deviceData.nextFound();
             break;
         }
-    }while(c != '0');
+    } while(c != '0');
 
     system("cls");
 }
 
-void editDevice(Device& device,int x,int y){
+void editDevice(Device& device,int x,int y) {
     char *brand,*model;
     int ram,memory;
     float price,screenSize;
@@ -121,7 +124,7 @@ void editDevice(Device& device,int x,int y){
     gotoxy(x+10,y+1);
     cin.ignore();
     getline(cin,brand_str);
-    if(!brand_str.empty()){
+    if(!brand_str.empty()) {
         brand = &brand_str[0];
         device.setBrandName(brand);
     }
@@ -129,35 +132,35 @@ void editDevice(Device& device,int x,int y){
 
     gotoxy(x+10,y+3);
     getline(cin,model_str);
-    if(!model_str.empty()){
+    if(!model_str.empty()) {
         model = &model_str[0];
         device.setModel(model);
     }
 
     gotoxy(x+16,y+5);
     getline(cin,screenSize_str);
-    if(!screenSize_str.empty()){
+    if(!screenSize_str.empty()) {
         screenSize = atof(screenSize_str.c_str());
         device.setScreenSize(screenSize);
     }
 
     gotoxy(x+15,y+7);
     getline(cin,ram_str);
-    if(!ram_str.empty()){
+    if(!ram_str.empty()) {
         ram = atoi(ram_str.c_str());
         device.setRam(ram);
     }
 
     gotoxy(x+15,y+9);
     getline(cin,memory_str);
-    if(!memory_str.empty()){
+    if(!memory_str.empty()) {
         memory = atoi(memory_str.c_str());
         device.setMemory(memory);
     }
 
     gotoxy(x+10,y+11);
     getline(cin,price_str);
-    if(!price_str.empty()){
+    if(!price_str.empty()) {
         price = atof(price_str.c_str());
         device.setPrice(price);
     }
@@ -203,12 +206,13 @@ void showDevices(DeviceData& deviceData) {
     system("cls");
 }
 
-
-void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
-    char brand[20],model[20];
-    int ram,memory;
-    float price,screenSize;
-
+bool validateLenghtOfCharArray(char* array, int maxLenght) {
+    if(strlen(array)>maxLenght) {
+        return false;
+    }
+    return true;
+}
+void displayNewDeviceForm(int x,int y) {
     gotoxy(x,y);
     cout <<"Brand:             "<<endl;
     gotoxy(x,y+1);
@@ -221,19 +225,94 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     cout <<"Rom:                 "<<endl;
     gotoxy(x,y+5);
     cout <<"Price:               "<<endl;
+}
 
-    gotoxy(x+6,y);
-    cin >> brand;
-    gotoxy(x+6,y+1);
-    cin >> model;
-    gotoxy(x+12,y+2);
-    cin >> screenSize;
-    gotoxy(x+4,y+3);
-    cin >> ram;
-    gotoxy(x+4,y+4);
-    cin >> memory;
-    gotoxy(x+6,y+5);
-    cin >>price;
+void clearErrorMessageInNewDeviceForm(int x, int y) {
+    gotoxy(x,y+7);
+    cout <<"                                                   ";
+}
+
+void showErrorMessageAndClearInput(int x,int y,string errorMsg) {
+    system("cls");
+    displayNewDeviceForm(x,y);
+    gotoxy(x,y+7);
+    cout <<errorMsg<<endl;
+}
+
+void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
+    char brand[MAX_NAME_LENGHT],model[MAX_NAME_LENGHT];
+    int ram,memory;
+    float price,screenSize;
+    bool isValid = false;
+
+    displayNewDeviceForm(x,y);
+
+    do {
+        isValid=false;
+        gotoxy(x+6,y);
+        cin >> brand;
+        isValid = validateLenghtOfCharArray(brand,MAX_NAME_LENGHT);
+        if(!isValid) {
+            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS);
+        }
+    } while(!isValid);
+    clearErrorMessageInNewDeviceForm(x,y);
+    do {
+        gotoxy(x+6,y+1);
+        cin >> model;
+        isValid = validateLenghtOfCharArray(model,MAX_NAME_LENGHT);
+        if(!isValid) {
+            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS);
+        }
+    } while(!isValid);
+    clearErrorMessageInNewDeviceForm(x,y);
+    do {
+        gotoxy(x+12,y+2);
+        cin.clear();
+        cin.sync();
+        cin >> screenSize;
+
+        if(!cin.good()) {
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+        }
+
+    } while(!cin.good());
+    clearErrorMessageInNewDeviceForm(x,y);
+    do {
+        gotoxy(x+4,y+3);
+        cin.clear();
+        cin.sync();
+        cin >> ram;
+        if(!cin.good()) {
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+        }
+    } while(!cin.good());
+    clearErrorMessageInNewDeviceForm(x,y);
+
+    do{
+        gotoxy(x+4,y+4);
+        cin.clear();
+        cin.sync();
+        cin >> memory;
+
+        if(!cin.good()) {
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+        }
+
+    }while(!cin.good());
+    clearErrorMessageInNewDeviceForm(x,y);
+
+    do{
+        gotoxy(x+6,y+5);
+        cin.clear();
+        cin.sync();
+        cin >>price;
+
+        if(!cin.good()) {
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+        }
+
+    }while(!cin.good());
 
     Device device(brand,model,ram,memory,price,screenSize);
     deviceData.add(device);
