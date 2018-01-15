@@ -32,6 +32,7 @@ public:
     void restoreFromTrash();
     int getCurrentTrashNumber();
     int getCurrentNumber();
+    void clearTrash();
 
 protected:
     Device *tab;

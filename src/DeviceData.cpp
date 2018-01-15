@@ -255,3 +255,8 @@ int DeviceData::getCurrentTrashNumber(){
 int DeviceData::getCurrentNumber(){
     return current;
 }
+
+void DeviceData::clearTrash(){
+    amountTrash = 0;
+    currentTrash = -1;
+}

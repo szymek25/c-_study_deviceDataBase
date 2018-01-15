@@ -401,7 +401,7 @@ void showTrash(DeviceData& deviceData) {
         cout << deviceData.getCurrentTrashNumber() +1 <<"/"<<deviceData.getAmountTrash();
         displayDetailsForDevice(deviceData.getCurrentTrash(),10,10);
         gotoxy(5,20);
-        cout <<"Previous[\x1b] Next[\x1a] Restore[r]  Back[0] ";
+        cout <<"Previous[\x1b] Next[\x1a] Restore[r] Clean Trash[d]  Back[0] ";
 
         c = getch();
         switch(c) {
@@ -414,6 +414,9 @@ void showTrash(DeviceData& deviceData) {
         case 'r':
             deviceData.restoreFromTrash();
             system("cls");
+            break;
+        case 'd':
+            deviceData.clearTrash();
             break;
         }
     } while(c != '0');
