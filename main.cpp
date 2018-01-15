@@ -31,6 +31,8 @@ void showMenu() {
     gotoxy(30,15);
     cout <<"5.Load Current Data Base"<<endl;
     gotoxy(30,16);
+    cout <<"6.Trash"<<endl;
+    gotoxy(30,17);
     cout <<"0.Exit" <<endl;
 }
 
@@ -191,6 +193,7 @@ void showDevices(DeviceData& deviceData) {
             break;
         case 'c':
             deviceData.deleteCurrent();
+            system("cls");
             break;
         case 's':
             system("cls");
@@ -289,7 +292,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     } while(!cin.good());
     clearErrorMessageInNewDeviceForm(x,y);
 
-    do{
+    do {
         gotoxy(x+4,y+4);
         cin.clear();
         cin.sync();
@@ -299,10 +302,10 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
             showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
         }
 
-    }while(!cin.good());
+    } while(!cin.good());
     clearErrorMessageInNewDeviceForm(x,y);
 
-    do{
+    do {
         gotoxy(x+6,y+5);
         cin.clear();
         cin.sync();
@@ -312,7 +315,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
             showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
         }
 
-    }while(!cin.good());
+    } while(!cin.good());
 
     Device device(brand,model,ram,memory,price,screenSize);
     deviceData.add(device);
@@ -382,6 +385,40 @@ void chooseDataBase(DeviceData& deviceData) {
     } while(c!='0');
 }
 
+void showTrash(DeviceData& deviceData) {
+    char c;
+    do {
+        if(deviceData.getAmountTrash() <= 0) {
+            system("cls");
+            cout <<"No devices in trash"<< endl;
+            cout <<"Press any key to continue ..."<< endl;
+            getch();
+            break;
+        }
+        system("cls");
+        cout <<"Devices in trash: ";
+        cout << deviceData.getCurrentTrashNumber() +1 <<"/"<<deviceData.getAmountTrash();
+        displayDetailsForDevice(deviceData.getCurrentTrash(),10,10);
+        gotoxy(5,20);
+        cout <<"Previous[\x1b] Next[\x1a] Restore[r]  Back[0] ";
+
+        c = getch();
+        switch(c) {
+        case KEY_LEFT:
+            deviceData.previousTrash();
+            break;
+        case KEY_RIGHT:
+            deviceData.nextTrash();
+            break;
+        case 'r':
+            deviceData.restoreFromTrash();
+            system("cls");
+            break;
+        }
+    } while(c != '0');
+    system("cls");
+}
+
 int main() {
     DeviceData dataBase(15);
     char zn;
@@ -408,6 +445,9 @@ int main() {
             break;
         case '5':
             dataBase.loadData();
+            break;
+        case '6':
+            showTrash(dataBase);
             break;
         }
     } while(zn != '0');

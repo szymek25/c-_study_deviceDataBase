@@ -13,9 +13,12 @@ public:
     Device& getCurrent();
     void next();
     void nextFound();
+    void nextTrash();
     void previous();
     void previousFound();
+    void previousTrash();
     int getAmount();
+    int getAmountTrash();
     void deleteCurrent();
     char** loadDataBases();
     void addDataBase(char* name);
@@ -25,19 +28,26 @@ public:
     void loadData();
     bool searchPrice(float min, float max);
     Device getCurrentFound();
+    Device getCurrentTrash();
+    void restoreFromTrash();
+    int getCurrentTrashNumber();
 
 protected:
     Device *tab;
     Device *found;
+    Device *trash;
     int sizeOfBase;
     int amount;
     int amountFound;
+    int amountTrash;
     int current;
     int currentFound;
+    int currentTrash;
     char* name;
     int amountOfDataBases;
 private:
     char* addSuffixToFileName(char* suffix);
+    void moveToTrash();
 };
 
 #endif // DEVICEDATA_H
