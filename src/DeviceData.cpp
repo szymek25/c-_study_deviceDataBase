@@ -89,6 +89,9 @@ void DeviceData::deleteCurrent() {
             tab[i]=tab[i+1];
         }
         amount--;
+        if(current == amount){
+            current--;
+        }
     } else if(amount ==1) {
         moveToTrash();
         current = -1;
@@ -235,6 +238,9 @@ void DeviceData::restoreFromTrash(){
             trash[i]=trash[i+1];
         }
         amountTrash--;
+        if(amountTrash == currentTrash){
+            currentTrash--;
+        }
     } else if(amountTrash ==1) {
         add(trash[currentTrash]);
         currentTrash = -1;
@@ -244,4 +250,8 @@ void DeviceData::restoreFromTrash(){
 
 int DeviceData::getCurrentTrashNumber(){
     return currentTrash;
+}
+
+int DeviceData::getCurrentNumber(){
+    return current;
 }

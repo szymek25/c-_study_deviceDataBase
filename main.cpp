@@ -180,6 +180,7 @@ void showDevices(DeviceData& deviceData) {
             break;
         }
         system("cls");
+        cout << "Device: "<< deviceData.getCurrentNumber() + 1 << "/" << deviceData.getAmount();
         displayDetailsForDevice(deviceData.getCurrent(),10,10);
         gotoxy(5,20);
         cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Search by Price[s] Edit[e] Back[0] ";

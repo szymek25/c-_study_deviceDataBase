@@ -6,3 +6,4 @@ obj/Debug/src/Device.o
 dataBases
 *.siz
 *.dat
+*.trash
