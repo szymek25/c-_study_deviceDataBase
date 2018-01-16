@@ -10,7 +10,7 @@ DeviceData::DeviceData(int sizeOfBase) {
     this -> sizeOfBase = sizeOfBase;
     tab = new Device[sizeOfBase];
     found = new Device[sizeOfBase];
-    trash = new Device[sizeOfBase];
+    trash = new Device[sizeOfBase * 2];
     amount = 0;
     amountFound = 0;
     amountTrash = 0;

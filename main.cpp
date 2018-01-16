@@ -9,6 +9,7 @@
 #define MAX_NAME_LENGHT 20
 #define TO_MUCH_CHARACTERS "Your name is to long, max character is 20"
 #define IS_NOT_DIGIT "Please input number"
+#define DATA_BASE_SIZE 15
 
 using namespace std;
 
@@ -244,6 +245,14 @@ void showErrorMessageAndClearInput(int x,int y,string errorMsg) {
 }
 
 void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
+    if(deviceData.getAmount() >= DATA_BASE_SIZE){
+        system("cls");
+        cout <<"Max size of data base has been reached" <<endl;
+        cout <<"Press any key to continue ..."<< endl;
+        getch();
+        system("cls");
+        return ;
+    }
     char brand[MAX_NAME_LENGHT],model[MAX_NAME_LENGHT];
     int ram,memory;
     float price,screenSize;
@@ -417,6 +426,15 @@ void showTrash(DeviceData& deviceData) {
             deviceData.nextTrash();
             break;
         case 'r':
+            if(deviceData.getAmount()>= DATA_BASE_SIZE){
+                system("cls");
+                cout <<"In a data base there is no free memory, if you will try restore this object you will lose it"<<endl;
+                cout <<"Do you want continue(y,n)"<<endl;
+                c = getch();
+                if(c!='y'){
+                    break;
+                }
+            }
             deviceData.restoreFromTrash();
             system("cls");
             break;
@@ -429,7 +447,7 @@ void showTrash(DeviceData& deviceData) {
 }
 
 int main() {
-    DeviceData dataBase(15);
+    DeviceData dataBase(DATA_BASE_SIZE);
     char zn;
     gotoxy(30,10);
     cout << "Welcome in device`s data base"<<endl;
