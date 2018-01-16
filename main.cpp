@@ -210,7 +210,7 @@ void showDevices(DeviceData& deviceData) {
     system("cls");
 }
 
-bool validateLenghtOfCharArray(char* array, int maxLenght) {
+bool validateLenghtOfCharArray(char* array, unsigned int maxLenght) {
     if(strlen(array)>maxLenght) {
         return false;
     }
@@ -324,29 +324,29 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     system("cls");
 }
 
-void inputNewDataBaseInfo(DeviceData& deviceData) {
-    char dataBaseName[20];
+char* inputNewDataBaseInfo(DeviceData deviceData) {
+    char* dataBaseName = new char;
     cin >> dataBaseName;
     deviceData.addDataBase(dataBaseName);
-    deviceData.setName(dataBaseName);
+    return dataBaseName;
     system("cls");
 }
 
 void selectBaseName(DeviceData& deviceData, char **dataBases) {
 
-    int i,size;
+    int numberOfBase,size;
     bool selected = false;
     size = deviceData.getamountOfDataBases();
     do {
         for(int i=0 ; i < size; i++) {
             cout <<"[" << i << "]" << dataBases[i] << endl;
         }
-        cin >> i;
+        cin >> numberOfBase;
 
-        if(i > size) {
+        if(numberOfBase > size) {
             cout <<"Please input correct number" << endl;
         } else {
-            deviceData.setName(dataBases[i]);
+            deviceData.setName(dataBases[numberOfBase]);
             selected = true;
             deviceData.loadData();
         }
@@ -356,11 +356,14 @@ void selectBaseName(DeviceData& deviceData, char **dataBases) {
 }
 
 void chooseDataBase(DeviceData& deviceData) {
-    char **dataBases = deviceData.loadDataBases();
+    char **dataBases = new char*;
+    dataBases = deviceData.loadDataBases();
     char c;
+    char* nameOfBase = new char;
     if(deviceData.getamountOfDataBases() <= 0) {
         cout <<"There is no any databases, please input name for new data base";
-        inputNewDataBaseInfo(deviceData);
+        nameOfBase = inputNewDataBaseInfo(deviceData);
+        deviceData.setName(nameOfBase);
         return;
     }
     do {
@@ -375,7 +378,9 @@ void chooseDataBase(DeviceData& deviceData) {
         system("cls");
         switch(c) {
         case '1':
-            inputNewDataBaseInfo(deviceData);
+            nameOfBase = inputNewDataBaseInfo(deviceData);
+            deviceData.setName(nameOfBase);
+            deviceData.loadData();
             c = '0';
             break;
         case '2':
@@ -431,6 +436,8 @@ int main() {
     chooseDataBase(dataBase);
 
     do {
+        cout <<"Name: "<< dataBase.getDataBaseName()<<endl;
+        cout <<"Amount: "<< dataBase.getAmount()<<"/"<<dataBase.getSizeOfBase()<<endl;
         showMenu();
         zn=getch();
         system("cls");

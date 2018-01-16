@@ -9,7 +9,7 @@ DeviceData::DeviceData() {
 DeviceData::DeviceData(int sizeOfBase) {
     this -> sizeOfBase = sizeOfBase;
     tab = new Device[sizeOfBase];
-    found = new Device;
+    found = new Device[sizeOfBase];
     trash = new Device[sizeOfBase];
     amount = 0;
     amountFound = 0;
@@ -31,6 +31,7 @@ Device& DeviceData::getCurrent() {
     if(current >=0) {
         return tab[current];
     }
+
 }
 
 void DeviceData::next() {
@@ -103,10 +104,11 @@ char** DeviceData::loadDataBases() {
     FILE *zp;
     zp = fopen("dataBases","rb");
     fread(&amountOfDataBases,sizeof(amountOfDataBases),1,zp);
-    char** dataBases = new char*;
+    char** dataBases = new char*[amountOfDataBases];
 
     for(int i=0; i<amountOfDataBases; i++) {
         dataBases[i] = new char[MAX_NAME_LENGHT];
+        //dataBases[i] = new char;
         fread(dataBases[i],sizeof(dataBases[i]),1,zp);
     }
     fclose(zp);
@@ -130,7 +132,7 @@ void DeviceData::addDataBase(char* name) {
 }
 
 char* DeviceData::addSuffixToFileName(char* suffix) {
-    char *nameofFile = new char;
+    char *nameofFile = new char[MAX_NAME_LENGHT];
     strcpy(nameofFile,name);
     strcat(nameofFile,suffix);
     return nameofFile;
@@ -138,21 +140,25 @@ char* DeviceData::addSuffixToFileName(char* suffix) {
 
 void DeviceData::saveData() {
     FILE *zp;
-    zp = fopen(addSuffixToFileName(".siz"), "wb");
+    char size[] = ".siz";
+    char data[] = ".dat";
+    char trash[] = ".trash";
+    zp = fopen(addSuffixToFileName(size), "wb");
 
     fwrite(&sizeOfBase, sizeof(sizeOfBase),1,zp);
     fwrite(&amount, sizeof(amount),1,zp);
     fwrite(&amountTrash, sizeof(amountTrash),1,zp);
     fclose(zp);
 
-    zp = fopen(addSuffixToFileName(".dat"), "wb");
+    zp = fopen(addSuffixToFileName(data), "wb");
 
     for(int i=0; i<amount; i++) {
         fwrite(&tab[i],sizeof(tab[i]),1,zp);
     }
     fclose(zp);
 
-    zp = fopen(addSuffixToFileName(".trash"), "wb");
+
+    zp = fopen(addSuffixToFileName(trash), "wb");
 
     for(int i=0; i<amountTrash; i++) {
         fwrite(&trash[i],sizeof(trash[i]),1,zp);
@@ -162,14 +168,19 @@ void DeviceData::saveData() {
 
 void DeviceData::loadData() {
     FILE *zp;
-    zp = fopen(addSuffixToFileName(".siz"), "rb");
+    char size[] = ".siz";
+    char data[] = ".dat";
+    char trash[] = ".trash";
+    amount = 0;
+    amountTrash = 0;
+    zp = fopen(addSuffixToFileName(size), "rb");
 
     fread(&sizeOfBase, sizeof(sizeOfBase),1,zp);
     fread(&amount, sizeof(amount),1,zp);
     fread(&amountTrash, sizeof(amountTrash),1,zp);
     fclose(zp);
 
-    zp = fopen(addSuffixToFileName(".dat"), "rb");
+    zp = fopen(addSuffixToFileName(data), "rb");
 
     for(int i=0; i<amount; i++) {
         fread(&tab[i],sizeof(tab[i]),1,zp);
@@ -181,7 +192,7 @@ void DeviceData::loadData() {
         current = 0;
     }
 
-    zp = fopen(addSuffixToFileName(".trash"), "rb");
+    zp = fopen(addSuffixToFileName(trash), "rb");
 
     for(int i=0; i<amountTrash; i++) {
         fread(&trash[i],sizeof(trash[i]),1,zp);
@@ -223,12 +234,14 @@ Device DeviceData::getCurrentFound(){
     if(currentFound >=0) {
         return found[currentFound];
     }
+
 }
 
 Device DeviceData::getCurrentTrash(){
     if(currentTrash >= 0){
         return trash[currentTrash];
     }
+
 }
 
 void DeviceData::restoreFromTrash(){
@@ -259,4 +272,11 @@ int DeviceData::getCurrentNumber(){
 void DeviceData::clearTrash(){
     amountTrash = 0;
     currentTrash = -1;
+}
+
+char* DeviceData::getDataBaseName(){
+    return name;
+}
+int DeviceData::getSizeOfBase(){
+    return sizeOfBase;
 }

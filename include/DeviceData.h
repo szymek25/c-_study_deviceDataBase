@@ -33,6 +33,8 @@ public:
     int getCurrentTrashNumber();
     int getCurrentNumber();
     void clearTrash();
+    char* getDataBaseName();
+    int getSizeOfBase();
 
 protected:
     Device *tab;
