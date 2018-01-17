@@ -4,12 +4,18 @@
 #include <DeviceData.h>
 #include <conio.h>
 #include <stdio.h>
+#include <map>
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 #define MAX_NAME_LENGHT 20
 #define TO_MUCH_CHARACTERS "Your name is to long, max character is 20"
 #define IS_NOT_DIGIT "Please input number"
 #define DATA_BASE_SIZE 15
+#define BRAND "brand"
+#define MODEL "model"
+#define RAM "ram"
+#define MEMORY "memory"
+#define SCREEN_SIZE "screenSize"
 
 using namespace std;
 
@@ -217,19 +223,19 @@ bool validateLenghtOfCharArray(char* array, unsigned int maxLenght) {
     }
     return true;
 }
-void displayNewDeviceForm(int x,int y) {
+void displayNewDeviceForm(int x,int y,map<string,string> values) {
     gotoxy(x,y);
-    cout <<"Brand:             "<<endl;
+    cout <<"Brand:"<< values[BRAND] <<endl;
     gotoxy(x,y+1);
-    cout <<"Model:             "<<endl;
+    cout <<"Model:"<< values[MODEL] <<endl;
     gotoxy(x,y+2);
-    cout <<"Screen Size:        "<<endl;
+    cout <<"Screen Size:"<< values[SCREEN_SIZE] <<endl;
     gotoxy(x,y+3);
-    cout <<"Ram:                "<<endl;
+    cout <<"Ram:"<< values[RAM] <<endl;
     gotoxy(x,y+4);
-    cout <<"Rom:                 "<<endl;
+    cout <<"Rom:"<< values[MEMORY] <<endl;
     gotoxy(x,y+5);
-    cout <<"Price:               "<<endl;
+    cout <<"Price:"<<endl;
 }
 
 void clearErrorMessageInNewDeviceForm(int x, int y) {
@@ -237,9 +243,9 @@ void clearErrorMessageInNewDeviceForm(int x, int y) {
     cout <<"                                                   ";
 }
 
-void showErrorMessageAndClearInput(int x,int y,string errorMsg) {
+void showErrorMessageAndClearInput(int x,int y,string errorMsg,map<string,string> values) {
     system("cls");
-    displayNewDeviceForm(x,y);
+    displayNewDeviceForm(x,y,values);
     gotoxy(x,y+7);
     cout <<errorMsg<<endl;
 }
@@ -258,7 +264,9 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     float price,screenSize;
     bool isValid = false;
 
-    displayNewDeviceForm(x,y);
+    map<string,string> values;
+
+    displayNewDeviceForm(x,y,values);
 
     do {
         isValid=false;
@@ -266,19 +274,25 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
         cin >> brand;
         isValid = validateLenghtOfCharArray(brand,MAX_NAME_LENGHT);
         if(!isValid) {
-            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS);
+            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS,values);
         }
     } while(!isValid);
+    string brand_str(brand);
+    values[BRAND] = brand_str;
     clearErrorMessageInNewDeviceForm(x,y);
+
     do {
         gotoxy(x+6,y+1);
         cin >> model;
         isValid = validateLenghtOfCharArray(model,MAX_NAME_LENGHT);
         if(!isValid) {
-            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS);
+            showErrorMessageAndClearInput(x,y,TO_MUCH_CHARACTERS,values);
         }
     } while(!isValid);
+    string model_str(model);
+    values[MODEL] = model_str;
     clearErrorMessageInNewDeviceForm(x,y);
+
     do {
         gotoxy(x+12,y+2);
         cin.clear();
@@ -286,21 +300,24 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
         cin >> screenSize;
 
         if(!cin.good()) {
-            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT,values);
         }
 
     } while(!cin.good());
     clearErrorMessageInNewDeviceForm(x,y);
+    values[SCREEN_SIZE] = to_string(screenSize);
+
     do {
         gotoxy(x+4,y+3);
         cin.clear();
         cin.sync();
         cin >> ram;
         if(!cin.good()) {
-            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT,values);
         }
     } while(!cin.good());
     clearErrorMessageInNewDeviceForm(x,y);
+    values[RAM] = to_string(ram);
 
     do {
         gotoxy(x+4,y+4);
@@ -309,11 +326,12 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
         cin >> memory;
 
         if(!cin.good()) {
-            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT,values);
         }
 
     } while(!cin.good());
     clearErrorMessageInNewDeviceForm(x,y);
+    values[MEMORY] = to_string(memory);
 
     do {
         gotoxy(x+6,y+5);
@@ -322,7 +340,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
         cin >>price;
 
         if(!cin.good()) {
-            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT);
+            showErrorMessageAndClearInput(x,y,IS_NOT_DIGIT,values);
         }
 
     } while(!cin.good());
