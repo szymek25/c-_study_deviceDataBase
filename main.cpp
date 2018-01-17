@@ -43,11 +43,11 @@ void showMenu() {
     gotoxy(30,12);
     cout <<"2.Show devices"<<endl;
     gotoxy(30,13);
-    cout <<"3.Select Data Base"<<endl;
+    cout <<"3.Manage Databases"<<endl;
     gotoxy(30,14);
-    cout <<"4.Save Current Data Base"<<endl;
+    cout <<"4.Save Current Database"<<endl;
     gotoxy(30,15);
-    cout <<"5.Load Current Data Base"<<endl;
+    cout <<"5.Load Current Database"<<endl;
     gotoxy(30,16);
     cout <<"6.Trash"<<endl;
     gotoxy(30,17);
@@ -364,8 +364,25 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     system("cls");
 }
 
+bool checkIfCurrentLoadedDataBaseStillExsist(DeviceData deviceData, char** dataBases){
+    char* dataBaseName = new char[MAX_NAME_LENGHT];
+    dataBaseName = deviceData.getDataBaseName();
+    int lengthOfArray = deviceData.getamountOfDataBases();
+    bool isPresent = false;
+
+    for(int i = 0;i < lengthOfArray;i++){
+        if(strcmp(dataBaseName,dataBases[i]) == 0){
+            isPresent = true;
+            break;
+        }
+    }
+
+    return isPresent;
+}
+
 char* inputNewDataBaseInfo(DeviceData deviceData) {
     char* dataBaseName = new char;
+    cout <<"Name:";
     cin >> dataBaseName;
     deviceData.addDataBase(dataBaseName);
     return dataBaseName;
@@ -377,13 +394,14 @@ void selectBaseName(DeviceData& deviceData, char **dataBases) {
     int numberOfBase,size;
     bool selected = false;
     size = deviceData.getamountOfDataBases();
+    cout <<"Select Database"<<endl;
     do {
         for(int i=0 ; i < size; i++) {
             cout <<"[" << i << "]" << dataBases[i] << endl;
         }
         cin >> numberOfBase;
 
-        if(numberOfBase > size) {
+        if(numberOfBase >= size) {
             cout <<"Please input correct number" << endl;
         } else {
             deviceData.setName(dataBases[numberOfBase]);
@@ -395,23 +413,53 @@ void selectBaseName(DeviceData& deviceData, char **dataBases) {
     system("cls");
 }
 
+void deleteDataBase(DeviceData deviceData){
+    char ** dataBases = new char*;
+    int numberOfBase,size;
+    bool selected = false;
+    dataBases = deviceData.loadDataBases();
+    size = deviceData.getamountOfDataBases();
+
+     do {
+        for(int i=0 ; i < size; i++) {
+            cout <<"[" << i << "]" << dataBases[i] << endl;
+        }
+        cin >> numberOfBase;
+
+        if(numberOfBase >= size) {
+            cout <<"Please input correct number" << endl;
+        } else {
+            selected = true;
+            deviceData.deleteDataBase(dataBases,numberOfBase);
+        }
+
+    } while(!selected);
+    system("cls");
+}
+
 void chooseDataBase(DeviceData& deviceData) {
     char **dataBases = new char*;
     dataBases = deviceData.loadDataBases();
     char c;
-    char* nameOfBase = new char;
-    if(deviceData.getamountOfDataBases() <= 0) {
-        cout <<"There is no any databases, please input name for new data base";
-        nameOfBase = inputNewDataBaseInfo(deviceData);
-        deviceData.setName(nameOfBase);
-        return;
-    }
+    char* nameOfBase = new char[MAX_NAME_LENGHT];
+
     do {
+
+        if(deviceData.getamountOfDataBases() <= 0) {
+            cout <<"There is no any databases, please input name for new data base" <<endl;
+            nameOfBase = inputNewDataBaseInfo(deviceData);
+            deviceData.setName(nameOfBase);
+            system("cls");
+            return;
+        }
+
         gotoxy(30,11);
         cout << "1.Create new data base"<<endl;
         gotoxy(30,12);
         cout << "2.Open exsist data base"<<endl;
         gotoxy(30,13);
+        cout <<"3.Delete data base" <<endl;
+        gotoxy(30,14);
         cout << "0.Exit" <<endl;
 
         c = getch();
@@ -426,6 +474,17 @@ void chooseDataBase(DeviceData& deviceData) {
         case '2':
             selectBaseName(deviceData,dataBases);
             c = '0';
+            break;
+        case '3':
+            deleteDataBase(deviceData);
+            dataBases = deviceData.loadDataBases();
+            if(deviceData.getamountOfDataBases() <= 0){
+                break;
+            }
+            if(!checkIfCurrentLoadedDataBaseStillExsist(deviceData,dataBases)){
+                selectBaseName(deviceData,dataBases);
+                c = '0';
+            }
             break;
         }
     } while(c!='0');

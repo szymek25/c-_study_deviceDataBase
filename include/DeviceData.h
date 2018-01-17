@@ -35,6 +35,7 @@ public:
     void clearTrash();
     char* getDataBaseName();
     int getSizeOfBase();
+    void deleteDataBase(char** dataBases, int selectedDataBase);
 
 protected:
     Device *tab;

@@ -280,3 +280,37 @@ char* DeviceData::getDataBaseName(){
 int DeviceData::getSizeOfBase(){
     return sizeOfBase;
 }
+
+void DeviceData::deleteDataBase(char** dataBases, int selectedDataBase){
+    FILE *zp;
+    char *dataBaseName = new char[MAX_NAME_LENGHT];
+    dataBaseName = dataBases[selectedDataBase];
+    char trashFileName[MAX_NAME_LENGHT];
+    char sizeFileName[MAX_NAME_LENGHT];
+
+    for(int i = selectedDataBase;i<amountOfDataBases - 1;i++){
+        dataBases[i]=dataBases[i+1];
+    }
+    amountOfDataBases--;
+
+    zp = fopen("dataBases", "wb");
+    fwrite(&amountOfDataBases,sizeof(amountOfDataBases),1,zp);
+    for(int i=0; i<amountOfDataBases; i++) {
+        fwrite(dataBases[i],sizeof(dataBases[i]),1,zp);
+    }
+
+    fclose(zp);
+
+    strcpy(trashFileName,dataBaseName);
+    strcat(trashFileName,".trash");
+
+    strcpy(sizeFileName,dataBaseName);
+    strcat(sizeFileName,".siz");
+
+    strcat(dataBaseName,".dat");
+
+    remove(dataBaseName);
+    remove(sizeFileName);
+    remove(trashFileName);
+
+}
