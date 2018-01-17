@@ -26,6 +26,17 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),c);
 }
 
+boolean areYouSure(){
+    char i;
+    cout <<"Are you sure (y,n)?";
+    cin >>i;
+    switch(i){
+        case 'y':return true;
+        break;
+        default: return false;
+    }
+}
+
 void showMenu() {
     gotoxy(30,11);
     cout <<"1.Add device"<<endl;
@@ -200,8 +211,10 @@ void showDevices(DeviceData& deviceData) {
             deviceData.next();
             break;
         case 'c':
-            deviceData.deleteCurrent();
             system("cls");
+            if(areYouSure()){
+                deviceData.deleteCurrent();
+            }
             break;
         case 's':
             system("cls");
@@ -457,7 +470,10 @@ void showTrash(DeviceData& deviceData) {
             system("cls");
             break;
         case 'd':
-            deviceData.clearTrash();
+            system ("cls");
+            if(areYouSure()){
+                deviceData.clearTrash();
+            }
             break;
         }
     } while(c != '0');
