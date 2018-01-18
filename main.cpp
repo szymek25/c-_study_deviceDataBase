@@ -225,7 +225,7 @@ void showDevices(DeviceData& deviceData) {
     do {
         if(deviceData.getAmount() <= 0) {
             system("cls");
-            cout <<"No devices in data base"<< endl;
+            cout <<"No devices in database"<< endl;
             cout <<"Press any key to continue ..."<< endl;
             getch();
             break;
@@ -507,11 +507,11 @@ void chooseDataBase(DeviceData& deviceData) {
         }
 
         gotoxy(30,11);
-        cout << "1.Create new data base"<<endl;
+        cout << "1.Create new database"<<endl;
         gotoxy(30,12);
-        cout << "2.Open exsist data base"<<endl;
+        cout << "2.Open exsist database"<<endl;
         gotoxy(30,13);
-        cout <<"3.Delete data base" <<endl;
+        cout <<"3.Delete database" <<endl;
         gotoxy(30,14);
         cout << "0.Exit" <<endl;
 
@@ -571,7 +571,7 @@ void showTrash(DeviceData& deviceData) {
         case 'r':
             if(deviceData.getAmount()>= DATA_BASE_SIZE){
                 system("cls");
-                cout <<"In a data base there is no free memory, if you will try restore this object you will lose it"<<endl;
+                cout <<"In a database there is no free memory, if you will try restore this object you will lose it"<<endl;
                 cout <<"Do you want continue(y,n)"<<endl;
                 c = getch();
                 if(c!='y'){
@@ -596,7 +596,7 @@ int main() {
     DeviceData dataBase(DATA_BASE_SIZE);
     char zn;
     gotoxy(30,10);
-    cout << "Welcome in device`s data base"<<endl;
+    cout << "Welcome in device`s database"<<endl;
     chooseDataBase(dataBase);
 
     do {
