@@ -248,6 +248,16 @@ void showDevices(DeviceData& deviceData) {
         case 'c':
             system("cls");
             if(areYouSure()){
+                if(deviceData.getAmountTrash() >= DATA_BASE_SIZE){
+                    cout <<"There is no free space in trash"<<endl;
+                    cout <<"Press <y> if you want clear trash or <n> if you want cancel"<<endl;
+                    c = getch();
+                    if(c == 'y'){
+                        deviceData.clearTrash();
+                    } else{
+                        break;
+                    }
+                }
                 deviceData.deleteCurrent();
             }
             break;
