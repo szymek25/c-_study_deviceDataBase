@@ -616,10 +616,25 @@ int main() {
             chooseDataBase(dataBase);
             break;
         case '4':
-            dataBase.saveData();
+            if(!dataBase.saveData()){
+                cout <<"Something went wrong, try again later"<<endl;
+            } else{
+                cout <<"Successful"<<endl;
+            }
+            cout <<"Press any key to continue ..."<< endl;
+            getch();
+            system("cls");
+
             break;
         case '5':
-            dataBase.loadData();
+            if(!dataBase.loadData()){
+                cout <<"Something went wrong, try again later"<<endl;
+            } else{
+                cout <<"Successful"<<endl;
+            }
+            cout <<"Press any key to continue ..."<< endl;
+            getch();
+            system("cls");
             break;
         case '6':
             showTrash(dataBase);

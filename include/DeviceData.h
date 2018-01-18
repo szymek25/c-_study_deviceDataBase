@@ -24,8 +24,8 @@ public:
     void addDataBase(char* name);
     int getamountOfDataBases();
     void setName(char* name);
-    void saveData();
-    void loadData();
+    bool saveData();
+    bool loadData();
     bool searchPrice(float min, float max);
     Device getCurrentFound();
     Device getCurrentTrash();

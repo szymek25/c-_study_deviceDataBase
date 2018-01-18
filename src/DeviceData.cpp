@@ -138,12 +138,15 @@ char* DeviceData::addSuffixToFileName(char* suffix) {
     return nameofFile;
 }
 
-void DeviceData::saveData() {
+bool DeviceData::saveData() {
     FILE *zp;
     char size[] = ".siz";
     char data[] = ".dat";
     char trash[] = ".trash";
     zp = fopen(addSuffixToFileName(size), "wb");
+    if(zp == NULL){
+        return false;
+    }
 
     fwrite(&sizeOfBase, sizeof(sizeOfBase),1,zp);
     fwrite(&amount, sizeof(amount),1,zp);
@@ -151,6 +154,9 @@ void DeviceData::saveData() {
     fclose(zp);
 
     zp = fopen(addSuffixToFileName(data), "wb");
+    if(zp == NULL){
+        return false;
+    }
 
     for(int i=0; i<amount; i++) {
         fwrite(&tab[i],sizeof(tab[i]),1,zp);
@@ -159,14 +165,19 @@ void DeviceData::saveData() {
 
 
     zp = fopen(addSuffixToFileName(trash), "wb");
+    if(zp == NULL){
+        return false;
+    }
 
     for(int i=0; i<amountTrash; i++) {
         fwrite(&trash[i],sizeof(trash[i]),1,zp);
     }
     fclose(zp);
+
+    return true;
 }
 
-void DeviceData::loadData() {
+bool DeviceData::loadData() {
     FILE *zp;
     char size[] = ".siz";
     char data[] = ".dat";
@@ -174,6 +185,9 @@ void DeviceData::loadData() {
     amount = 0;
     amountTrash = 0;
     zp = fopen(addSuffixToFileName(size), "rb");
+    if(zp == NULL){
+        return false;
+    }
 
     fread(&sizeOfBase, sizeof(sizeOfBase),1,zp);
     fread(&amount, sizeof(amount),1,zp);
@@ -181,6 +195,9 @@ void DeviceData::loadData() {
     fclose(zp);
 
     zp = fopen(addSuffixToFileName(data), "rb");
+    if(zp == NULL){
+        return false;
+    }
 
     for(int i=0; i<amount; i++) {
         fread(&tab[i],sizeof(tab[i]),1,zp);
@@ -193,6 +210,9 @@ void DeviceData::loadData() {
     }
 
     zp = fopen(addSuffixToFileName(trash), "rb");
+    if(zp == NULL){
+        return false;
+    }
 
     for(int i=0; i<amountTrash; i++) {
         fread(&trash[i],sizeof(trash[i]),1,zp);
@@ -203,6 +223,7 @@ void DeviceData::loadData() {
     if(amountTrash > 0) {
         currentTrash = 0;
     }
+    return true;
 }
 
 int DeviceData::getamountOfDataBases() {
