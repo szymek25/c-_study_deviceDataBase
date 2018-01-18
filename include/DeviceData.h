@@ -36,6 +36,10 @@ public:
     char* getDataBaseName();
     int getSizeOfBase();
     void deleteDataBase(char** dataBases, int selectedDataBase);
+    bool searchByModel(char *input);
+    bool searchByBrand(char *input);
+    int getAmountFound();
+    int getCurrentFoundNumber();
 
 protected:
     Device *tab;

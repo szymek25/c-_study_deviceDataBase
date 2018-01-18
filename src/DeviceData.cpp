@@ -230,6 +230,42 @@ bool DeviceData::searchPrice(float min, float max){
     }
 }
 
+bool DeviceData::searchByModel(char * input){
+    amountFound = 0;
+    currentFound = -1;
+    for (int i=0;i<amount;i++){
+        if(strcmp(input, tab[i].getModel()) == 0){
+            found[amountFound]=tab[i];
+            amountFound++;
+        }
+    }
+
+    if(amountFound){
+        currentFound=0;
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+bool DeviceData::searchByBrand(char * input){
+    amountFound = 0;
+    currentFound = -1;
+    for (int i=0;i<amount;i++){
+        if(strcmp(input, tab[i].getBrandName()) == 0){
+            found[amountFound]=tab[i];
+            amountFound++;
+        }
+    }
+
+    if(amountFound){
+        currentFound=0;
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
 Device DeviceData::getCurrentFound(){
     if(currentFound >=0) {
         return found[currentFound];
@@ -313,4 +349,12 @@ void DeviceData::deleteDataBase(char** dataBases, int selectedDataBase){
     remove(sizeFileName);
     remove(trashFileName);
 
+}
+
+int DeviceData::getAmountFound(){
+    return amountFound;
+}
+
+int DeviceData::getCurrentFoundNumber(){
+    return currentFound;
 }

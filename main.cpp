@@ -70,15 +70,8 @@ void displayDetailsForDevice(Device device, int x, int y) {
 
 }
 
-void searchByPrice(DeviceData deviceData) {
+void displayFounded(DeviceData deviceData,bool isFound){
     char c;
-    float min,max;
-    cout << "Input min price: ";
-    cin >> min;
-    cout <<"Input max price: ";
-    cin >> max;
-
-    bool isFound = deviceData.searchPrice(min,max);
     do {
         if(! isFound) {
             system("cls");
@@ -88,7 +81,7 @@ void searchByPrice(DeviceData deviceData) {
             break;
         }
         system("cls");
-        cout <<"Founded devices by price";
+        cout <<"Founded devices: "<< deviceData.getCurrentFoundNumber() + 1 << "/" << deviceData.getAmountFound();
         displayDetailsForDevice(deviceData.getCurrentFound(),10,10);
         gotoxy(5,20);
         cout <<"Previous[\x1b] Next[\x1a]  Back[0] ";
@@ -103,6 +96,46 @@ void searchByPrice(DeviceData deviceData) {
             break;
         }
     } while(c != '0');
+}
+
+void searchByBrand(DeviceData deviceData){
+    char c;
+    char input[MAX_NAME_LENGHT];
+
+    cout <<"Input phrase: ";
+    cin >> input;
+    bool isFound = deviceData.searchByBrand(input);
+
+    displayFounded(deviceData,isFound);
+}
+
+void searchByModel(DeviceData deviceData){
+    char c;
+    char input[MAX_NAME_LENGHT];
+
+    cout <<"Input phrase: ";
+    cin >> input;
+    bool isFound = deviceData.searchByModel(input);
+
+    displayFounded(deviceData,isFound);
+}
+
+void searchByPrice(DeviceData deviceData) {
+    float min,max;
+    cout << "Input min price: ";
+    cin >> min;
+    cout <<"Input max price: ";
+    cin >> max;
+    if(min>max){
+        cout <<"You inputted ridiculous data" << endl;
+        cout <<"Press any key to continue ..."<< endl;
+        getch();
+        return;
+    }
+
+    bool isFound = deviceData.searchPrice(min,max);
+
+    displayFounded(deviceData,isFound);
 
     system("cls");
 }
@@ -201,7 +234,9 @@ void showDevices(DeviceData& deviceData) {
         cout << "Device: "<< deviceData.getCurrentNumber() + 1 << "/" << deviceData.getAmount();
         displayDetailsForDevice(deviceData.getCurrent(),10,10);
         gotoxy(5,20);
-        cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Search by Price[s] Edit[e] Back[0] ";
+        cout <<"Previous[\x1b] Next[\x1a]  Delete[c] Edit[e] Back[0] ";
+        gotoxy(5,22);
+        cout <<"Search by: Price[s] Model[m] Brand[b]"<<endl;
         c = getch();
         switch(c) {
         case KEY_LEFT:
@@ -223,6 +258,14 @@ void showDevices(DeviceData& deviceData) {
         case 'e':
             system("cls");
             editDevice(deviceData.getCurrent(),30,30);
+            break;
+        case 'm':
+            system("cls");
+            searchByModel(deviceData);
+            break;
+        case 'b':
+            system("cls");
+            searchByBrand(deviceData);
             break;
         }
 
