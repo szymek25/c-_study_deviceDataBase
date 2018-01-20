@@ -62,11 +62,11 @@ void displayDetailsForDevice(Device device, int x, int y) {
     gotoxy(x,y+2);
     cout <<"Screen Size: "<<device.getScreenSize()<<endl;
     gotoxy(x,y+3);
-    cout <<"Ram: "<<device.getRam()<<endl;
+    cout <<"Ram[GB]: "<<device.getRam()<<endl;
     gotoxy(x,y+4);
-    cout <<"Rom: "<<device.getMemory()<<endl;
+    cout <<"Rom[GB]: "<<device.getMemory()<<endl;
     gotoxy(x,y+5);
-    cout <<"Price: "<<device.getPrice()<<endl;
+    cout <<"Price[PLN]: "<<device.getPrice()<<endl;
 
 }
 
@@ -297,11 +297,11 @@ void displayNewDeviceForm(int x,int y,map<string,string> values) {
     gotoxy(x,y+2);
     cout <<"Screen Size:"<< values[SCREEN_SIZE] <<endl;
     gotoxy(x,y+3);
-    cout <<"Ram:"<< values[RAM] <<endl;
+    cout <<"Ram[GB]:"<< values[RAM] <<endl;
     gotoxy(x,y+4);
-    cout <<"Rom:"<< values[MEMORY] <<endl;
+    cout <<"Rom[GB]:"<< values[MEMORY] <<endl;
     gotoxy(x,y+5);
-    cout <<"Price:"<<endl;
+    cout <<"Price[PLN]:"<<endl;
 }
 
 void clearErrorMessageInNewDeviceForm(int x, int y) {
@@ -374,7 +374,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     values[SCREEN_SIZE] = to_string(screenSize);
 
     do {
-        gotoxy(x+4,y+3);
+        gotoxy(x+8,y+3);
         cin.clear();
         cin.sync();
         cin >> ram;
@@ -386,7 +386,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     values[RAM] = to_string(ram);
 
     do {
-        gotoxy(x+4,y+4);
+        gotoxy(x+8,y+4);
         cin.clear();
         cin.sync();
         cin >> memory;
@@ -400,7 +400,7 @@ void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     values[MEMORY] = to_string(memory);
 
     do {
-        gotoxy(x+6,y+5);
+        gotoxy(x+11,y+5);
         cin.clear();
         cin.sync();
         cin >>price;
