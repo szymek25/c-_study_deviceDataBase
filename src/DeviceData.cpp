@@ -142,7 +142,7 @@ bool DeviceData::saveData() {
     FILE *zp;
     char size[] = ".siz";
     char data[] = ".dat";
-    char trash[] = ".trash";
+    char trash_name[] = ".trash";
     zp = fopen(addSuffixToFileName(size), "wb");
     if(zp == NULL){
         return false;
@@ -164,7 +164,7 @@ bool DeviceData::saveData() {
     fclose(zp);
 
 
-    zp = fopen(addSuffixToFileName(trash), "wb");
+    zp = fopen(addSuffixToFileName(trash_name), "wb");
     if(zp == NULL){
         return false;
     }
@@ -181,7 +181,7 @@ bool DeviceData::loadData() {
     FILE *zp;
     char size[] = ".siz";
     char data[] = ".dat";
-    char trash[] = ".trash";
+    char trash_name[] = ".trash";
     amount = 0;
     amountTrash = 0;
     zp = fopen(addSuffixToFileName(size), "rb");
@@ -209,7 +209,7 @@ bool DeviceData::loadData() {
         current = 0;
     }
 
-    zp = fopen(addSuffixToFileName(trash), "rb");
+    zp = fopen(addSuffixToFileName(trash_name), "rb");
     if(zp == NULL){
         return false;
     }
