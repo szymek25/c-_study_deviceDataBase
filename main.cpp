@@ -319,7 +319,7 @@ void showErrorMessageAndClearInput(int x,int y,string errorMsg,map<string,string
 void inputDeviceInfo(DeviceData& deviceData, int x, int y) {
     if(deviceData.getAmount() >= DATA_BASE_SIZE){
         system("cls");
-        cout <<"Max size of data base has been reached" <<endl;
+        cout <<"Max size of database has been reached" <<endl;
         cout <<"Press any key to continue ..."<< endl;
         getch();
         system("cls");
@@ -499,7 +499,7 @@ void chooseDataBase(DeviceData& deviceData) {
     do {
 
         if(deviceData.getamountOfDataBases() <= 0) {
-            cout <<"There is no any databases, please input name for new data base" <<endl;
+            cout <<"There is no any databases, please input name for new database" <<endl;
             nameOfBase = inputNewDataBaseInfo(deviceData);
             deviceData.setName(nameOfBase);
             system("cls");
